@@ -30,8 +30,3 @@ Follow these steps to run the application on your local machine:
 Node.js** (v18.0.0 or higher recommended)
  npm** (v9.0.0 or higher)
 
-### Installation
-
-1. Clone the repository:**
-   ```bash
-   git clone [https://github.com/MariamAslam12/MariamAslam12-services-booking-app.git](https://github.com/MariamAslam12/MariamAslam12-services-booking-app.git)
