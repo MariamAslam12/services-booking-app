@@ -80,78 +80,85 @@ export const CustomerDashboard = () => {
           bookings.map((item) => (
             <div
               key={item.id}
-              className="p-5 glass-card rounded-2xl flex flex-col md:flex-row md:items-center justify-between gap-4 border border-slate-800 bg-slate-900/60"
+              className="p-5 glass-card rounded-2xl flex flex-col space-y-4 border border-slate-800 bg-slate-900/60"
             >
-              <div className="space-y-2 max-w-2xl">
-                <div className="flex flex-wrap items-center gap-2">
-                  <span className="font-bold text-white text-base">
-                    {item.providerName || "Service Provider"}
-                  </span>
-                  <span className="text-xs px-2.5 py-0.5 rounded-full bg-slate-800 text-slate-300">
-                    {item.category || "General"}
-                  </span>
-                  <span
-                    className={`text-xs px-2 py-0.5 rounded font-bold ${
-                      item.urgency === "Emergency / Immediate"
-                        ? "bg-rose-500/20 text-rose-400 border border-rose-500/30"
-                        : item.urgency === "High"
-                        ? "bg-amber-500/20 text-amber-400 border border-amber-500/30"
-                        : "bg-indigo-500/20 text-indigo-300"
-                    }`}
-                  >
-                    {item.urgency || "Normal"}
-                  </span>
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div className="space-y-2 max-w-2xl">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="font-bold text-white text-base">
+                      {item.providerName || "Service Provider"}
+                    </span>
+                    <span className="text-xs px-2.5 py-0.5 rounded-full bg-slate-800 text-slate-300">
+                      {item.category || "General"}
+                    </span>
+                    <span
+                      className={`text-xs px-2 py-0.5 rounded font-bold ${
+                        item.urgency === "Emergency / Immediate"
+                          ? "bg-rose-500/20 text-rose-400 border border-rose-500/30"
+                          : item.urgency === "High"
+                          ? "bg-amber-500/20 text-amber-400 border border-amber-500/30"
+                          : "bg-indigo-500/20 text-indigo-300"
+                      }`}
+                    >
+                      {item.urgency || "Normal"}
+                    </span>
+                  </div>
+
+                  {/* Updated Description Line with Key Fallbacks */}
+                  <p className="text-sm text-slate-300">
+                    {item.notes ||
+                      item.description ||
+                      item.issueDescription ||
+                      item.details ||
+                      "No description provided."}
+                  </p>
+
+                  {/* Status Indicator Notification Badges */}
+                  <div className="flex flex-wrap items-center gap-2 pt-1">
+                    {item.status === "Pending" && (
+                      <span className="inline-flex items-center text-xs font-semibold px-2.5 py-1 rounded-lg bg-amber-500/10 text-amber-400 border border-amber-500/20">
+                        <Clock className="w-3.5 h-3.5 mr-1.5" />
+                        Status: Request Pending Provider Acceptance
+                      </span>
+                    )}
+
+                    {item.status === "In Progress" && (
+                      <span className="inline-flex items-center text-xs font-semibold px-2.5 py-1 rounded-lg bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 animate-pulse">
+                        <AlertCircle className="w-3.5 h-3.5 mr-1.5" />
+                        Status: Service Currently In Progress
+                      </span>
+                    )}
+
+                    {item.status === "Completed" && (
+                      <span className="inline-flex items-center text-xs font-semibold px-2.5 py-1 rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                        <CheckCircle2 className="w-3.5 h-3.5 mr-1.5" />
+                        Status: Service Completed
+                      </span>
+                    )}
+                  </div>
                 </div>
 
-                <p className="text-sm text-slate-300">
-                  {item.notes || "No description provided."}
-                </p>
-
-                {/* Status Indicator Notification Badges */}
-                <div className="flex flex-wrap items-center gap-2 pt-1">
-                  {item.status === "Pending" && (
-                    <span className="inline-flex items-center text-xs font-semibold px-2.5 py-1 rounded-lg bg-amber-500/10 text-amber-400 border border-amber-500/20">
-                      <Clock className="w-3.5 h-3.5 mr-1.5" />
-                      Status: Request Pending Provider Acceptance
-                    </span>
+                {/* Action / Review Form Launcher */}
+                <div className="flex items-center">
+                  {item.status === "Completed" && !item.isReviewed && (
+                    <button
+                      onClick={() =>
+                        setReviewingId(reviewingId === item.id ? null : item.id)
+                      }
+                      className="flex items-center px-4 py-2 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs rounded-xl shadow-lg transition-all"
+                    >
+                      <Star className="w-4 h-4 mr-1.5 fill-current" />
+                      Write Review
+                    </button>
                   )}
 
-                  {item.status === "In Progress" && (
-                    <span className="inline-flex items-center text-xs font-semibold px-2.5 py-1 rounded-lg bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 animate-pulse">
-                      <AlertCircle className="w-3.5 h-3.5 mr-1.5" />
-                      Status: Service Currently In Progress
-                    </span>
-                  )}
-
-                  {item.status === "Completed" && (
-                    <span className="inline-flex items-center text-xs font-semibold px-2.5 py-1 rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-                      <CheckCircle2 className="w-3.5 h-3.5 mr-1.5" />
-                      Status: Service Completed
+                  {item.isReviewed && (
+                    <span className="text-xs text-amber-400 font-semibold flex items-center bg-amber-500/10 px-3 py-1.5 rounded-xl border border-amber-500/20">
+                      <Star className="w-3.5 h-3.5 mr-1 fill-current text-amber-400" />
+                      Review Submitted ({item.review?.rating}★)
                     </span>
                   )}
                 </div>
-              </div>
-
-              {/* Action / Review Form Launcher */}
-              <div className="flex items-center">
-                {item.status === "Completed" && !item.isReviewed && (
-                  <button
-                    onClick={() =>
-                      setReviewingId(reviewingId === item.id ? null : item.id)
-                    }
-                    className="flex items-center px-4 py-2 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs rounded-xl shadow-lg transition-all"
-                  >
-                    <Star className="w-4 h-4 mr-1.5 fill-current" />
-                    Write Review
-                  </button>
-                )}
-
-                {item.isReviewed && (
-                  <span className="text-xs text-amber-400 font-semibold flex items-center bg-amber-500/10 px-3 py-1.5 rounded-xl border border-amber-500/20">
-                    <Star className="w-3.5 h-3.5 mr-1 fill-current text-amber-400" />
-                    Review Submitted ({item.review?.rating}★)
-                  </span>
-                )}
               </div>
 
               {/* Collapsible Inline Review Form */}

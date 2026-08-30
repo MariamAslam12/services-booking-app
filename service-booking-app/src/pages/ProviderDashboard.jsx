@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { getStoredBookings, updateBookingStatus, saveBooking } from "../utils/storage";
+import { getStoredBookings, updateBookingStatus } from "../utils/storage";
 import { CheckCircle2, Clock, PlayCircle, AlertCircle, Filter } from "lucide-react";
 
 const DEFAULT_PROVIDER_ORDERS = [
@@ -163,8 +163,13 @@ export const ProviderDashboard = () => {
                   </span>
                 </div>
 
+                {/* Updated Description Line with full property key fallbacks */}
                 <p className="text-sm text-slate-300">
-                  {item.notes || item.issueDescription || "No notes provided."}
+                  {item.notes ||
+                    item.description ||
+                    item.issueDescription ||
+                    item.details ||
+                    "No description provided."}
                 </p>
 
                 {item.date && (

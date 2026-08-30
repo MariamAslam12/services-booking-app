@@ -55,6 +55,7 @@ export const BookingModal = ({ isOpen, onClose, provider }) => {
     e.preventDefault();
 
     const customerIdentity = getCurrentUserIdentity();
+    const userNotes = description.trim() || "Service request submitted by customer.";
 
     saveBooking({
       providerId: provider?.id || null,
@@ -62,7 +63,9 @@ export const BookingModal = ({ isOpen, onClose, provider }) => {
       customerName: customerIdentity, // Attaches request to logged-in user account
       category: provider?.category || "General",
       urgency: urgency, // Stores 'Emergency / Immediate', 'High', or 'Normal'
-      notes: description || "Service request submitted by customer.",
+      notes: userNotes,
+      description: userNotes,
+      issueDescription: userNotes,
       date: date,
       time: time,
       status: "Pending",
