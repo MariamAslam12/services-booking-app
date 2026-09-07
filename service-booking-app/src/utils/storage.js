@@ -2,7 +2,7 @@ import { INITIAL_PROVIDERS } from "../mock/mockData";
 
 const STORAGE_KEYS = {
   BOOKINGS_PREFIX: "app_bookings_",
-  PROVIDERS: "app_providers_v1",
+  PROVIDERS: "app_providers_v2",
   CURRENT_USER: "currentUser", // Key where logged-in user details are stored
 };
 

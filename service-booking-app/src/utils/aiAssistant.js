@@ -28,7 +28,13 @@ export const analyzeSearchQuery = (query, availableServices = []) => {
     category = "HVAC & Cooling";
   } else if (text.match(/door|table|wood|cabinet|carpenter|furniture|fix/)) {
     category = "Carpentry";
-  }
+  }else if (text.match(/paint|wall|surface|color/)) {
+      category = "Painting";
+    } else if (text.match(/fridge|washer|refrigerator|appliance/)) {
+      category = "Appliance Repair";
+    } else if (text.match(/pest|termite|fumigation|bugs|insects/)) {
+      category = "Pest Control";
+    }
 
   // 3. Filter services array based on detected Category and Text search
   const filtered = availableServices.filter((service) => {
